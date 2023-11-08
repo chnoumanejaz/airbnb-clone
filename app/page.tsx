@@ -1,3 +1,7 @@
-export default function Home() {
-  return <h1>Hello from the airbnb</h1>;
-}
+import React from 'react';
+
+const page = () => {
+  return <div>Main Pagea</div>;
+};
+
+export default page;
