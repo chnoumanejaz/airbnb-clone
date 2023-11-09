@@ -12,6 +12,7 @@ const Logo = () => {
       alt="airbnb logo"
       height={100}
       width={100}
+      priority={true}
       onClick={() => router.push('/')}
       className="hidden md:block cursor-pointer w-auto h-auto"
     />
