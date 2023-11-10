@@ -5,12 +5,16 @@ import { useMemo, useState } from 'react';
 import Heading from '../Heading';
 import { categories } from '@/app/data/categoriesData';
 import CategoryInput from '../Inputs/CategoryInput';
-import { FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import CountrySelect from '../Inputs/CountrySelect';
 import Map from '../Map';
 import dynamic from 'next/dynamic';
 import Counter from '../Inputs/Counter';
 import ImageUpload from '../Inputs/ImageUpload';
+import Input from '../Inputs/Input';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 enum STEPS {
   CATEGORY = 0,
@@ -24,6 +28,9 @@ enum STEPS {
 const RentModal = () => {
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -79,6 +86,32 @@ const RentModal = () => {
     setStep(value => value + 1);
   };
 
+  const onSubmit: SubmitHandler<FieldValues> = data => {
+    if (step !== STEPS.PRICE) {
+      return handleNext();
+    }
+
+    setIsLoading(true);
+    axios
+      .post('/api/listings', data)
+      .then(() => {
+        toast.success('Listing created Successfully!');
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
+      })
+      .catch(err =>
+        toast.error(
+          'Something went wrong! Please make sure you fill all the fields.',
+          {
+            autoClose: 5000,
+          }
+        )
+      )
+      .finally(() => setIsLoading(false));
+  };
+
   const actionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
       return 'Select Location';
@@ -96,11 +129,12 @@ const RentModal = () => {
       return 'Set the price';
     }
     if (step === STEPS.PRICE) {
-      return 'Create Listing';
+      if (isLoading) return 'Creating...';
+      else return 'Create Listing';
     }
 
     return 'Next Step';
-  }, [step]);
+  }, [step, isLoading]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) return undefined;
@@ -190,6 +224,55 @@ const RentModal = () => {
     );
   }
 
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="How would you describe your place?"
+          subtitle="short and sweet works best!"
+        />
+        <Input
+          id="title"
+          label="Title"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <hr />
+        <Input
+          id="description"
+          label="Description"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Now, set your price"
+          subtitle="How much do you charge per night?"
+        />
+        <Input
+          id="price"
+          label="Price"
+          formatPrice={true}
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
   return (
     <Modal
       title="Airbnb your Home"
@@ -199,7 +282,8 @@ const RentModal = () => {
       secondaryAction={handleBack}
       secondaryActionLabel={secondaryActionLabel}
       body={bodyContent}
-      onSubmit={handleNext}
+      disabled={isLoading}
+      onSubmit={handleSubmit(onSubmit)}
     />
   );
 };
