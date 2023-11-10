@@ -12,9 +12,11 @@ import Input from '../Inputs/Input';
 import { toast } from 'react-toastify';
 import Button from '../Button';
 import { signIn } from 'next-auth/react';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -37,7 +39,7 @@ const RegisterModal = () => {
       .then(() => {
         reset();
         registerModal.onClose();
-        toast.success('Account Created Successfully!');
+        toast.success('Account Created Successfully, Login to Continue!');
       })
       .catch(err => {
         toast.error('This email is already taken. Try with another');
@@ -46,6 +48,11 @@ const RegisterModal = () => {
         setIsLoading(false);
       });
   };
+
+  const toggleModal = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -99,7 +106,7 @@ const RegisterModal = () => {
         <div className="flex items-center justify-center gap-2">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggleModal}
             className="text-neutral-800 cursor-pointer hover:font-medium hover:text-rose-500 transition">
             Log in
           </div>
@@ -113,7 +120,7 @@ const RegisterModal = () => {
       disabled={isLoading}
       isOpen={registerModal.isOpen}
       title="Register"
-      actionLabel="Continue"
+      actionLabel={isLoading ? 'Creating an Account...' : 'Continue'}
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

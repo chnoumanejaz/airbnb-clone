@@ -4,7 +4,7 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
@@ -54,6 +54,11 @@ const LoginModal = () => {
     });
   };
 
+  const toggleModal = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome Back" subtitle="Login to your account" />
@@ -99,9 +104,9 @@ const LoginModal = () => {
         <div className="flex items-center justify-center gap-2">
           <div>Don&apos;t have an account?</div>
           <div
-            onClick={loginModal.onClose}
+            onClick={toggleModal}
             className="text-neutral-800 cursor-pointer hover:font-medium hover:text-rose-500 transition">
-            Create New
+            Create New Account
           </div>
         </div>
       </div>
