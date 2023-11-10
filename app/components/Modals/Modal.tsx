@@ -69,7 +69,7 @@ const Modal: React.FC<ModalProps> = ({
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-full opacity-0'
             }`}>
-            <div className="translate h-full lg:h-[90vh] md:h-[90vh] border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className="translate h-full lg:max-h-[90vh] md:max-h-[90vh] border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/* Modal Header */}
               <div className="flex items-center justify-center p-6 rounded-t relative border-b-[1px]">
                 <button
@@ -83,7 +83,7 @@ const Modal: React.FC<ModalProps> = ({
               <div className="overflow-y-scroll">
                 <div className="relative p-6 flex-auto">{body}</div>
                 {/* Modal footer */}
-                <div className="flex flex-col gap-2 px-6 py-0">
+                <div className="flex flex-col gap-2 px-6 py-4">
                   <div className="flex items-center gap-4 w-full">
                     {secondaryAction && secondaryActionLabel && (
                       <Button
