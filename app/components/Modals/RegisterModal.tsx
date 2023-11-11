@@ -40,6 +40,7 @@ const RegisterModal = () => {
         reset();
         registerModal.onClose();
         toast.success('Account Created Successfully, Login to Continue!');
+        loginModal.onOpen();
       })
       .catch(err => {
         toast.error('This email is already taken. Try with another');
