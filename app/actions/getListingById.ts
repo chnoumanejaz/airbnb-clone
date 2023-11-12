@@ -1,5 +1,4 @@
 import prisma from '@/app/libs/prismadb';
-import { useRouter } from 'next/navigation';
 
 interface IParams {
   listingId?: string;

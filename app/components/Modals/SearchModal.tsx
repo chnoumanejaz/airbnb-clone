@@ -1,16 +1,16 @@
 'use client';
-import React, { useCallback, useMemo, useState } from 'react';
-import Modal from './Modal';
 import useSearchModal from '@/app/hooks/useSearchModal';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Range } from 'react-date-range';
-import dynamic from 'next/dynamic';
-import CountrySelect, { CountrySelectValue } from '../Inputs/CountrySelect';
-import queryString from 'query-string';
 import { formatISO } from 'date-fns';
+import dynamic from 'next/dynamic';
+import { useRouter, useSearchParams } from 'next/navigation';
+import queryString from 'query-string';
+import { useCallback, useMemo, useState } from 'react';
+import { Range } from 'react-date-range';
 import Heading from '../Heading';
 import Calendar from '../Inputs/Calendar';
 import Counter from '../Inputs/Counter';
+import CountrySelect, { CountrySelectValue } from '../Inputs/CountrySelect';
+import Modal from './Modal';
 
 enum STEPS {
   LOCATION = 0,
@@ -54,7 +54,6 @@ const SearchModal = () => {
 
     let currentQuery = {};
     if (params) {
-      console.log(params);
       currentQuery = queryString.parse(params.toString());
     }
 

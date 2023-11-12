@@ -1,12 +1,11 @@
 'use client';
 import useCountries from '@/app/hooks/useCountries';
-import { SafeUser } from '@/app/types';
 import { User } from '@prisma/client';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { IconType } from 'react-icons';
 import Avatar from '../Avatar';
 import ListingCategory from './ListingCategory';
-import dynamic from 'next/dynamic';
 
 const Map = dynamic(() => import('../Map'), {
   ssr: false,

@@ -1,13 +1,12 @@
 'use client';
-import { Listing, Reservation } from '@prisma/client';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react';
-import { SafeReservation, SafeUser } from '../types';
+import { toast } from 'react-toastify';
 import Container from '../components/Container';
 import Heading from '../components/Heading';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import ListingCard from '../components/listings/ListingCard';
+import { SafeReservation, SafeUser } from '../types';
 
 interface TripsClientProps {
   reservations: SafeReservation[];
@@ -32,8 +31,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
           router.refresh();
         })
         .catch(error => {
-          console.log(error);
-          toast.error(error?.response?.data?.message);
+          toast.error('Something went wrong. Try Again!');
         })
         .finally(() => setDeletingId(''));
     },
