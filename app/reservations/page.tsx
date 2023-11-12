@@ -1,8 +1,7 @@
-import React from 'react';
-import getCurrentUser from '../actions/getCurrentUser';
 import ClientOnly from '../ClientOnly';
-import EmptyState from '../components/EmptyState';
+import getCurrentUser from '../actions/getCurrentUser';
 import getReservations from '../actions/getReservations';
+import EmptyState from '../components/EmptyState';
 import ReservationClient from './ReservationClient';
 
 const ReservationsPage = async () => {
@@ -22,7 +21,7 @@ const ReservationsPage = async () => {
     authorId: currentUser.id,
   });
 
-  if (reservations?.length === 0) {
+  if (!reservations || reservations?.length === 0) {
     return (
       <ClientOnly>
         <EmptyState

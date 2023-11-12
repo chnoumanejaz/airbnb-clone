@@ -28,6 +28,7 @@
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.3",
+    "sharp": "^0.32.6",
     "world-countries": "^5.0.0",
     "zustand": "^4.4.6"
   },

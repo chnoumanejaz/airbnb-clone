@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import React from 'react';
 import ClientOnly from './ClientOnly';
 import Container from './components/Container';
