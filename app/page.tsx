@@ -1,19 +1,21 @@
-export const dynamic = 'force-dynamic';
-import React from 'react';
 import ClientOnly from './ClientOnly';
+import getCurrentUser from './actions/getCurrentUser';
+import getListings, { IListingsParams } from './actions/getListings';
 import Container from './components/Container';
 import EmptyState from './components/EmptyState';
-import getListings, { IListingsParams } from './actions/getListings';
 import ListingCard from './components/listings/ListingCard';
-import getCurrentUser from './actions/getCurrentUser';
 
 interface HomeProps {
   searchParams: IListingsParams;
 }
 
-const page = async ({ searchParams }: HomeProps) => {
-  const listings = await getListings(searchParams);
+const Home = async ({ searchParams }: HomeProps) => {
   const currentUser = await getCurrentUser();
+  let listings = await getListings({});
+
+  if (searchParams && !searchParams?.userId) {
+    listings = await getListings(searchParams);
+  }
 
   if (listings.length === 0)
     return (
@@ -39,4 +41,4 @@ const page = async ({ searchParams }: HomeProps) => {
   );
 };
 
-export default page;
+export default Home;
