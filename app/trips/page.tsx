@@ -13,6 +13,8 @@ const TripsPage = async () => {
         <EmptyState
           title="Unauthorized"
           subtitle="Please login to see the details"
+          showReset
+          resetLabel="Reserve Now"
         />
       </ClientOnly>
     );

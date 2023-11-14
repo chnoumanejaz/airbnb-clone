@@ -27,6 +27,8 @@ const ReservationsPage = async () => {
         <EmptyState
           title="No Reservations Found"
           subtitle="Looks like you don't have any reservations on your properties"
+          showReset
+          resetLabel="Explore others"
         />
       </ClientOnly>
     );
